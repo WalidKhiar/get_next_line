@@ -3,47 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: okhiar <okhiar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:34:29 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/11/29 14:49:11 by oukhiar          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:10:34 by okhiar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next-line.h"
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-
-	if (size && count > ((size_t)-1) / size)
-		return (0);
-	ptr = malloc(count * size);
-	if (ptr == NULL)
-		return (NULL);
-	ft_bzero(ptr, size * count);
-	return (ptr);
-}
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	unsigned char	*po;
-	size_t			i;
-
-	i = 0;
-	po = (unsigned char *)b;
-	while (i < len)
-	{
-		po[i] = (unsigned char)c;
-		i++;
-	}
-	return (b);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	ft_memset(s, 0, n);
-}
+#include "get_next_line.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
