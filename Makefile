@@ -7,18 +7,18 @@ SRCS = get_next_line.c get_next_line_utils.c
 
 OBJS=$(SRCS:.c=.o)
 %.o : %.c
-        $(CC) ${CFLAGS} -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-all = $(NAME)
+all : $(NAME)
 
 $(NAME): $(OBJS)
-        ar rsc $(NAME) $(OBJS)
+	ar rsc $(NAME) $(OBJS)
 
-clean :
-        rm -f ${OBJS}
+clean:
+	rm -rf ${OBJS}
 
 
-fclean : clean
-        rm -f $(NAME)
+fclean: clean
+	rm -rf $(NAME)
 
-re : fclean all
+re: fclean all

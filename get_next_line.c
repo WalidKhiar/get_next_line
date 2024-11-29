@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhiar <okhiar@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:30:04 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/11/29 17:16:07 by okhiar           ###   ########.fr       */
+/*   Updated: 2024/11/29 22:36:57 by oukhiar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,29 @@ int check_newline(char *res)
 char *get_next_line(int fd)
 {
 	static char *res;
+	char *tmp;
 	int bytes_read;
-	int total_bytes_read;
 	char buff[BUFFER_SIZE + 1];
 	int newline_index = -1;
-	
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-        return (NULL);
+	char *ret;
+
+    if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	while ((bytes_read = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
+		if (bytes_read == -1) {
+			// free result ila kan kayn
+			return (NULL);
+		}
 		buff[bytes_read] = 0;
-		// tmp = res;
+		tmp = res;
 		res = ft_strjoin(res, buff);
-		// free(tmp);
+		if (tmp)
+		 free(tmp);
 		newline_index = check_newline(res);
 		if (newline_index != -1)
 			break;
 	}
-	char *ret;
 	if (newline_index == -1)
 	{
 		ret = res;
@@ -58,12 +63,13 @@ char *get_next_line(int fd)
 	res = ft_substr(res, newline_index + 1, INT_MAX);
 
 	return (ret);
-
 }
 
 int main ()
 {
         int fd = open("test.txt", O_RDONLY | O_CREAT);
         char *res = get_next_line(fd);
-		printf()
+		printf("%s", res);
+	res = get_next_line(fd);
+		printf("%s", res);
 }
