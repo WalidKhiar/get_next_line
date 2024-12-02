@@ -6,7 +6,7 @@
 /*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:37:30 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/12/02 12:55:39 by oukhiar          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:52:17 by oukhiar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-# define BUFFER_SIZE 7
 # define OPEN_MAX 1024
 
 char	*get_next_line(int fd);
