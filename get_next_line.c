@@ -6,7 +6,7 @@
 /*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:30:04 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/12/03 12:53:52 by oukhiar          ###   ########.fr       */
+/*   Updated: 2024/12/03 14:56:20 by oukhiar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,32 @@ int	check_newline(char *res)
 	return (-1);
 }
 
-void	ft_reducing(int fd, char ***res, int *newline_index, char **buff)
+void	ft_reducing(int fd, char **res, int *newline_index, char *buff)
 {
 	ssize_t	bytes_read;
 	char	*tmp;
 
 	while (*newline_index == -1)
 	{
-		bytes_read = read(fd, *buff, BUFFER_SIZE);
+		bytes_read = read(fd, buff, BUFFER_SIZE);
 		if (bytes_read == 0)
 			break ;
 		if (bytes_read == -1)
 		{
-			free (**res);
-			**res = NULL;
+			free (*res);
+			*res = NULL;
 			break ;
 		}
-		(*buff)[bytes_read] = 0;
-		tmp = **res;
-		**res = ft_strjoin(**res, *buff);
-		if (!**res)
+		*(buff + bytes_read) = 0;
+		tmp = *res;
+		*res = ft_strjoin(*res, buff);
+		if (!*res)
 		{
 			free(tmp);
 			break ;
 		}
 		free(tmp);
-		*newline_index = check_newline(**res);
+		*newline_index = check_newline(*res);
 	}
 }
 
@@ -68,7 +68,7 @@ void	read_until_newline(int fd, char **res, int *newline_index)
 	if (!buff)
 		return ;
 	if (*newline_index == -1)
-		ft_reducing(fd, &res, newline_index, &buff);
+		ft_reducing(fd, res, newline_index, buff);
 	free(buff);
 }
 
@@ -108,18 +108,3 @@ char	*get_next_line(int fd)
 	res = extract_update(fd);
 	return (res);
 }
-
-// int main() {
-// 	int fd = open("get_next_line.c", O_RDONLY);
-// 	char *line;
-
-// 	int i = 0;
-// 		while (i < 50)
-// 		{
-// 			line = get_next_line(fd);
-// 			printf("line N[%d]: %s",i ,line);
-// 			free(line);
-// 			i++;
-// 		}
-// 	close(fd);
-// }

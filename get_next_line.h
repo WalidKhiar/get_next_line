@@ -6,14 +6,13 @@
 /*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:31:07 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/12/02 14:51:52 by oukhiar          ###   ########.fr       */
+/*   Updated: 2024/12/03 14:57:36 by oukhiar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # include <fcntl.h>
-# include <stddef.h>
 # include <ctype.h>
 # include <stdio.h>
 # include <stdlib.h>
