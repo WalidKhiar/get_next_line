@@ -6,7 +6,7 @@
 /*   By: oukhiar <oukhiar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:30:04 by oukhiar           #+#    #+#             */
-/*   Updated: 2024/12/02 14:56:25 by oukhiar          ###   ########.fr       */
+/*   Updated: 2024/12/03 12:53:52 by oukhiar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,48 @@ int	check_newline(char *res)
 	return (-1);
 }
 
-int	*read_until_newline(int fd, char **res, int *newline_index)
+void	ft_reducing(int fd, char ***res, int *newline_index, char **buff)
 {
 	ssize_t	bytes_read;
 	char	*tmp;
-	char	buff[BUFFER_SIZE + 1];
 
-	*newline_index = check_newline(*res);
 	while (*newline_index == -1)
 	{
-		bytes_read = read(fd, buff, BUFFER_SIZE);
+		bytes_read = read(fd, *buff, BUFFER_SIZE);
 		if (bytes_read == 0)
 			break ;
 		if (bytes_read == -1)
 		{
-			free (*res);
-			*res = NULL;
-			return (0);
+			free (**res);
+			**res = NULL;
+			break ;
 		}
-		buff[bytes_read] = 0;
-		tmp = *res;
-		*res = ft_strjoin(*res, buff);
+		(*buff)[bytes_read] = 0;
+		tmp = **res;
+		**res = ft_strjoin(**res, *buff);
+		if (!**res)
+		{
+			free(tmp);
+			break ;
+		}
 		free(tmp);
-		if (!*res)
-			return (0);
-		*newline_index = check_newline(*res);
+		*newline_index = check_newline(**res);
 	}
-	return (newline_index);
+}
+
+void	read_until_newline(int fd, char **res, int *newline_index)
+{
+	char	*buff;
+
+	*newline_index = check_newline(*res);
+	if (*newline_index != -1)
+		return ;
+	buff = malloc((size_t)BUFFER_SIZE + 1);
+	if (!buff)
+		return ;
+	if (*newline_index == -1)
+		ft_reducing(fd, &res, newline_index, &buff);
+	free(buff);
 }
 
 char	*extract_update(int fd)
@@ -93,3 +108,18 @@ char	*get_next_line(int fd)
 	res = extract_update(fd);
 	return (res);
 }
+
+// int main() {
+// 	int fd = open("get_next_line.c", O_RDONLY);
+// 	char *line;
+
+// 	int i = 0;
+// 		while (i < 50)
+// 		{
+// 			line = get_next_line(fd);
+// 			printf("line N[%d]: %s",i ,line);
+// 			free(line);
+// 			i++;
+// 		}
+// 	close(fd);
+// }
